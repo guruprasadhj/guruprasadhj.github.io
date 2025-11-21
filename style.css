@@ -200,6 +200,15 @@ nav{display:flex; align-items:center; gap:12px}
 /* print */
 @media print{ body{ background:white; color:black } header, .cta, .nav-panel, .modal{ display:none } }
 
+/* Footer */
+.site-footer{
+  text-align:center;
+  margin:28px 0 8px;
+  color:var(--muted);
+  font-size:13px;
+  padding:8px 12px;
+}
+
 /* Under-construction notice */
 .site-notice{
   margin-top:12px;
