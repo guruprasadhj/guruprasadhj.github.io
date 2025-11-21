@@ -1,0 +1,38 @@
+{
+  "PROJECTS": {
+    "aditya": {
+      "title": "AI Content generation — Main Website",
+      "img": "assets/images/engage_ai.webp",
+      "desc": "A UI-forward content generation platform. I worked on UX, performance and integration.",
+      "tech": "React, Node.js, GCP",
+      "link": "https://example.com"
+    },
+    "connect": {
+      "title": "Connect Message",
+      "img": "assets/images/connect_message.webp",
+      "desc": "Messaging UX and platform integration case study.",
+      "tech": "Product, Integration",
+      "link": "https://example.com"
+    },
+    "integration": {
+      "title": "AI based Content Generation Platform Web App.",
+      "img": "assets/images/engage_ai_dashboard.webp",
+      "desc": "APIs, SSO/SAML, Linux debugging, observability and incident response.",
+      "tech": "Node.js, GCP, SAML",
+      "link": "https://example.com"
+    }
+  },
+  "ARTWORKS": {
+    "art1": { "title": "Nightfall Study", "img": "assets/images/HeyRam_art.jpg", "desc": "Digital painting study exploring light and silhouette." },
+    "art2": { "title": "Monsoon Alley", "img": "assets/images/gun_on_hand_art.jpg", "desc": "Environmental piece inspired by Chennai backstreets." },
+    "art3": { "title": "Detective Portrait", "img": "assets/images/aditya_detective_art.png", "desc": "Character portrait concept for Aditya." },
+    "art4": { "title": "Detective Portrait", "img": "assets/images/alan_wake_art.jpg", "desc": "Character portrait concept for Aditya." }
+
+  },
+  "BOOK": {
+    "title": "Aditya: Detective's Nightmare",
+    "cover": "assets/images/Book-Social-Media-image.png",
+    "desc": "A detective novel blending noir and Tamil cultural elements. Follow Aditya across Chettinad estates and Chennai backstreets.",
+    "buy": "https://share.google/BJ783nYAMMzXSzSIT"
+  }
+}

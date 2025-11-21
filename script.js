@@ -56,15 +56,25 @@ if ('IntersectionObserver' in window) {
 
 // Lazy-load images and ensure reveal observer triggers after load
 const lazyImages = $$('.lazy');
+let imgObs = null;
+function observeLazy(img) {
+  if (!img) return;
+  if ('IntersectionObserver' in window && imgObs) {
+    imgObs.observe(img);
+  } else {
+    // Fallback: load immediately
+    img.src = img.dataset.src;
+  }
+}
+
 if ('IntersectionObserver' in window) {
-  const imgObs = new IntersectionObserver((entries, obs) => {
+  imgObs = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const img = entry.target;
       img.src = img.dataset.src;
       img.onload = () => {
         img.classList.add('loaded');
-        // if the parent card wasn't visible yet, ensure revealObserver will check it
         const parent = img.closest('.reveal');
         if (parent && revealObserver) revealObserver.observe(parent);
       };
@@ -76,51 +86,101 @@ if ('IntersectionObserver' in window) {
 } else {
   lazyImages.forEach(img => { img.src = img.dataset.src; });
 }
+// Centralized site data (fetched from `data.json` at runtime)
+let DATA = {};
 
-// Data objects for modal content (update URLs/description as needed)
-const PROJECTS = {
-  'aditya': {
-    title: "AI Content generation — Main Website",
-    img: 'assets/images/engage_ai.webp',
-    desc: 'A UI-forward content generation platform. I worked on UX, performance and integration.',
-    tech: 'React, Node.js, GCP',
-    link: 'https://example.com'
-  },
-  'connect': {
-    title: 'Connect Message',
-    img: 'assets/images/connect_message.webp',
-    desc: 'Messaging platform UX and backend integration.',
-    tech: 'Realtime, Websockets',
-    link: 'https://example.com'
-  },
-  'integration': {
-    title: 'Lorem Ipsum',
-    img: 'assets/images/integration_sample.webp',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eleifend tristique tellus vel commodo.',
-    tech: 'Node.js, GCP, SAML',
-    link: 'https://example.com'
-  },
-  'writing': {
-    title: 'Personal Website & Writing',
-    img: 'assets/images/writing.webp',
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eleifend tristique tellus vel commodo.",
-    tech: 'Markdown, Notion',
-    link: 'https://example.com'
+async function fetchSiteData() {
+  try {
+    const res = await fetch('data.json', {cache: 'no-store'});
+    if (!res.ok) throw new Error('Failed to load data.json');
+    DATA = await res.json();
+  } catch (err) {
+    console.warn('Could not load data.json, falling back to empty DATA', err);
+    DATA = {};
   }
-};
+}
 
-const ARTWORKS = {
-  'art1': { title: 'Nightfall Study', img: 'assets/images/HeyRam_art.jpg', desc: 'Digital painting study exploring light and silhouette.' },
-  'art2': { title: 'Monsoon Alley', img: 'assets/images/art_monsoon.webp', desc: 'Inspired by Chennai backstreets. Focus on reflections.' },
-  'art3': { title: 'Detective Portrait', img: 'assets/images/art_detective.webp', desc: 'Character portrait concept for Aditya.' }
-};
+function renderProjects() {
+  const container = document.getElementById('projects-grid');
+  if (!container) return;
+  container.innerHTML = '';
+  const projects = DATA.PROJECTS || {};
+  Object.keys(projects).forEach(key => {
+    const p = projects[key];
+    const art = document.createElement('article');
+    art.className = 'project reveal';
+    art.setAttribute('data-project', key);
+    art.setAttribute('tabindex', '0');
+    art.setAttribute('role', 'button');
+    art.setAttribute('aria-pressed', 'false');
 
-const BOOK = {
-  title: "Aditya: Detective's Nightmare",
-  cover: 'assets/images/book_cover.webp',
-  desc: "A detective novel blending noir and Tamil cultural elements. Follow Aditya across Chettinad estates and Chennai backstreets.",
-  buy: 'https://example.com'
-};
+    art.innerHTML = `
+      <div class="project-media">
+        <img class="lazy" data-src="${p.img}" alt="${escapeHtml(p.title)}" />
+      </div>
+      <div class="pcontent">
+        <h3>${escapeHtml(p.title)}</h3>
+        <p class="muted">${escapeHtml(p.desc)}</p>
+        <div class="tags"><span class="tag">${escapeHtml((p.tech||'').split(',')[0]||'')}</span></div>
+      </div>`;
+
+    art.addEventListener('click', () => openModalFor(p));
+    art.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') openModalFor(p); });
+    container.appendChild(art);
+    const img = art.querySelector('img.lazy');
+    if (img) observeLazy(img);
+    if (revealObserver) revealObserver.observe(art);
+  });
+}
+
+function renderArtworks() {
+  const container = document.getElementById('art-grid');
+  if (!container) return;
+  container.innerHTML = '';
+  const arts = DATA.ARTWORKS || {};
+  Object.keys(arts).forEach(key => {
+    const a = arts[key];
+    const el = document.createElement('article');
+    el.className = 'artwork reveal';
+    el.setAttribute('data-art', key);
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+    el.innerHTML = `
+      <img class="lazy" data-src="${a.img}" alt="${escapeHtml(a.title)}" />
+      <div class="pcontent"><h3>${escapeHtml(a.title)}</h3><p class="muted">${escapeHtml(a.desc)}</p></div>`;
+    el.addEventListener('click', () => openModalFor(a));
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') openModalFor(a); });
+    container.appendChild(el);
+    const img = el.querySelector('img.lazy');
+    if (img) observeLazy(img);
+    if (revealObserver) revealObserver.observe(el);
+  });
+}
+
+function renderBook() {
+  const book = DATA.BOOK || {};
+  const coverImg = document.querySelector('#book .book-cover img');
+  const titleEl = document.querySelector('#book .book-info h3');
+  const descEl = document.querySelector('#book .book-info p.muted');
+  const buyBtn = document.querySelector('#book .book-actions a.primary');
+  const excerptBtn = document.querySelector('#book .book-actions a.btn');
+  if (coverImg && book.cover) coverImg.src = book.cover;
+  if (titleEl && book.title) titleEl.textContent = book.title;
+  if (descEl && book.desc) descEl.textContent = book.desc;
+  if (buyBtn && book.buy) buyBtn.href = book.buy;
+}
+
+function escapeHtml(s){ return String(s||'').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
+
+async function initSite() {
+  await fetchSiteData();
+  renderProjects();
+  renderArtworks();
+  renderBook();
+}
+
+// run init after scripts parsed
+initSite();
 
 // Modal logic
 const modal = $('#modal');
@@ -144,36 +204,8 @@ function closeModal() {
   modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow = '';
 }
 
-// Attach handlers: projects
-$$('.project').forEach(card => {
-  card.addEventListener('click', () => {
-    const key = card.dataset.project;
-    openModalFor(PROJECTS[key] || {});
-  });
-  card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') {
-    const key = card.dataset.project;
-    openModalFor(PROJECTS[key] || {});
-  }});
-});
-
-// Attach handlers: artworks
-$$('.artwork').forEach(a => {
-  a.addEventListener('click', () => {
-    const key = a.dataset.art;
-    openModalFor(ARTWORKS[key] || {});
-  });
-  a.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') {
-    const key = a.dataset.art;
-    openModalFor(ARTWORKS[key] || {});
-  }});
-});
-
-// Book cover opens modal
-const bookCover = document.querySelector('#book .book-cover img');
-if (bookCover) {
-  bookCover.addEventListener('click', () => openModalFor({ title: BOOK.title, img: BOOK.cover, desc: BOOK.desc, link: BOOK.buy }));
-  bookCover.style.cursor = 'pointer';
-}
+// Note: project/artwork/book event handlers are attached during render
+// Book cover click handler is attached in renderBook (book cover exists in DOM already)
 
 // Modal close handlers
 modalClose && modalClose.addEventListener('click', closeModal);

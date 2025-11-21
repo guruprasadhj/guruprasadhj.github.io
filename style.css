@@ -43,6 +43,12 @@ nav{display:flex; align-items:center; gap:12px}
 .accent-name{background:linear-gradient(90deg,#7dd3fc,#60a5fa); -webkit-background-clip:text; color:transparent}
 .intro p{color:var(--muted); margin-top:10px; font-size:15px}
 .cta{margin-top:14px; display:flex; gap:12px}
+.hero .muted.small{ padding:10px 12px; margin-top:12px; background: rgba(255,255,255,0.02); border-radius:10px }
+
+@media (max-width:720px){
+  /* increase padding on small screens for better touch area */
+  .hero .muted.small{ padding:14px 16px; margin-top:10px; font-size:14px }
+}
 .btn{padding:10px 14px; border-radius:12px; text-decoration:none; font-weight:700; background:var(--glass); border:1px solid rgba(255,255,255,0.04); font-size:14px}
 .btn.primary{background:var(--accent-grad); color:#012}
 .muted{color:var(--muted)}
