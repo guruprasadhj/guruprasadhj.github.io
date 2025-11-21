@@ -11,7 +11,7 @@
       "title": "Connect Message",
       "img": "assets/images/connect_message.webp",
       "desc": "Messaging UX and platform integration case study.",
-      "tech": "Product, Integration",
+      "tech": "Flutter, Firebase",
       "link": "https://example.com"
     },
     "integration": {
@@ -23,16 +23,16 @@
     }
   },
   "ARTWORKS": {
-    "art1": { "title": "Nightfall Study", "img": "assets/images/HeyRam_art.jpg", "desc": "Digital painting study exploring light and silhouette." },
-    "art2": { "title": "Monsoon Alley", "img": "assets/images/gun_on_hand_art.jpg", "desc": "Environmental piece inspired by Chennai backstreets." },
-    "art3": { "title": "Detective Portrait", "img": "assets/images/aditya_detective_art.png", "desc": "Character portrait concept for Aditya." },
-    "art4": { "title": "Detective Portrait", "img": "assets/images/alan_wake_art.jpg", "desc": "Character portrait concept for Aditya." }
+    "art1": { "title": "HeyRam Fan Art", "img": "assets/images/HeyRam_art.jpg", "desc": "Digital painting study exploring light and silhouette." },
+    "art2": { "title": "A Man With a Gun", "img": "assets/images/gun_on_hand_art.jpg", "desc": "Lorem Impsume" },
+    "art3": { "title": "Aditya Detective's Nightmare Poster", "img": "assets/images/aditya_detective_art.png", "desc": "Character portrait concept for Aditya." },
+    "art4": { "title": "Alan Wake Fan Art", "img": "assets/images/alan_wake_art.jpg", "desc": "Character portrait concept for Aditya." }
 
   },
   "BOOK": {
     "title": "Aditya: Detective's Nightmare",
     "cover": "assets/images/Book-Social-Media-image.png",
-    "desc": "A detective novel blending noir and Tamil cultural elements. Follow Aditya across Chettinad estates and Chennai backstreets.",
+    "desc": "After finally completing a long and protracted case, Aditya, an investigative journalist, recalls about his girlfriend, Anamika, whom he had been too preoccupied to speak with. He calls her, intrigued by her mention of a remote area and her request for him to unravel the mysteries of a perplexing case―an unheard-of place to anyone else. When he arrives, all he finds is calm and serenity, a stark contrast to Anamika's description. However, his quest takes a monumental turn when he becomes ensnared in an inferno-like situation. Flames rage around him, threatening to consume everything in their path. Aditya must emerge unscathed from this fiery ordeal, or else succumb to the relentless heat.",
     "buy": "https://share.google/BJ783nYAMMzXSzSIT"
   }
 }
