@@ -1,0 +1,201 @@
+/* style.css - separated stylesheet */
+
+/* ====== Theme variables ====== */
+:root{
+  --bg:#071025; --card:#091226; --muted:#9fb4c9; --text:#eaf4ff;
+  --accent-grad: linear-gradient(90deg,#7dd3fc,#60a5fa);
+  --glass: rgba(255,255,255,0.03);
+  --radius:12px; --max-w:1100px; --ff-sans:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --gap:18px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--ff-sans); background:radial-gradient(1200px 600px at 10% 10%, rgba(96,165,250,0.05), transparent), var(--bg);
+  color:var(--text); -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+
+/* Container */
+.site{max-width:var(--max-w); margin:22px auto; padding:20px}
+
+/* Header */
+header{position:sticky; top:12px; z-index:60; background:linear-gradient(180deg, rgba(7,16,37,0.6), rgba(7,16,37,0.45)); backdrop-filter: blur(6px);
+ border-radius:10px; padding:10px; border:1px solid rgba(255,255,255,0.03); transition:box-shadow .22s}
+.header-inner{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.brand{display:flex; align-items:center; gap:10px}
+.logo{width:42px; height:42px; border-radius:10px; background:linear-gradient(135deg,#60a5fa,#7dd3fc); display:grid; place-items:center; font-weight:800; color:#012}
+.meta{display:flex; flex-direction:column}
+.name{font-weight:700; font-size:15px}
+.role{font-size:12px; color:var(--muted)}
+
+/* Nav */
+nav{display:flex; align-items:center; gap:12px}
+.nav-links{display:flex; gap:10px; align-items:center}
+.nav-links a{padding:8px 10px; border-radius:8px; font-size:14px; color:var(--muted); text-decoration:none}
+.resume-btn{padding:8px 10px; border-radius:10px; background:var(--glass); border:1px solid rgba(255,255,255,0.04); font-weight:700}
+#hamburger{display:none}
+
+/* Hero */
+.hero{display:grid; grid-template-columns:1fr 420px; gap:calc(var(--gap)); align-items:center; margin-top:18px}
+.intro h1{font-size:40px; margin:0; line-height:1.02}
+.accent-name{background:linear-gradient(90deg,#7dd3fc,#60a5fa); -webkit-background-clip:text; color:transparent}
+.intro p{color:var(--muted); margin-top:10px; font-size:15px}
+.cta{margin-top:14px; display:flex; gap:12px}
+.btn{padding:10px 14px; border-radius:12px; text-decoration:none; font-weight:700; background:var(--glass); border:1px solid rgba(255,255,255,0.04); font-size:14px}
+.btn.primary{background:var(--accent-grad); color:#012}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* accent bubble */
+.accent-bubble{position:relative; height:220px; border-radius:10px; overflow:hidden; background:linear-gradient(120deg, rgba(125,211,252,0.06), rgba(96,165,250,0.03)); display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.02)}
+.accent-bubble img{max-width:100%; height:auto; border-radius:8px; box-shadow:0 10px 28px rgba(2,6,23,0.5); transition:transform .6s ease}
+
+/* ====== PROJECTS: CSS GRID (uniform cards) ====== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.project {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  border-radius: 10px;
+  overflow: hidden;
+  border:1px solid rgba(255,255,255,0.03);
+  transition: transform .2s, box-shadow .2s;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+.project:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(2,6,23,0.6); }
+
+/* fixed media area for consistent card heights */
+.project-media {
+  width:100%;
+  height:180px;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(0,0,0,0.06), transparent);
+}
+.project-media img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* project content */
+.pcontent{ padding:12px; display:flex; flex-direction:column; gap:8px; flex:1 }
+.pcontent h3{ margin:0 0 6px 0; font-size:16px }
+.pcontent p{ margin:0; color:var(--muted); font-size:13px }
+
+.tags{ margin-top:auto; display:flex; flex-wrap:wrap; gap:8px }
+.tag{ font-size:12px; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.02); color:var(--muted) }
+
+/* reveal animation for both sections */
+.reveal{ opacity:0; transform:translateY(8px); transition:opacity .6s ease, transform .6s ease }
+.reveal.visible{ opacity:1; transform:none }
+
+/* ====== ART: MASONRY (Pinterest-style using columns) ====== */
+.masonry-grid {
+  column-width: 300px;
+  column-gap: 16px;
+  width:100%;
+  margin-top:12px;
+}
+.masonry-grid .artwork {
+  display:inline-block;
+  width:100%;
+  margin:0 0 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.03);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  transition: transform .28s, box-shadow .28s;
+}
+.masonry-grid .artwork:hover { transform: translateY(-6px); box-shadow:0 18px 50px rgba(2,6,23,0.6); }
+
+.masonry-grid .artwork img {
+  display:block;
+  width:100%;
+  height:auto; /* preserve aspect ratio */
+  object-fit:cover;
+}
+.masonry-grid .pcontent { padding:10px }
+
+/* Book */
+.book-spot{ display:grid; grid-template-columns:260px 1fr; gap:16px; align-items:start; margin-top:14px }
+.book-cover{ width:100%; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.03); cursor:pointer }
+.book-cover img{ display:block; width:100%; height:auto }
+.book-info{ padding:8px }
+.book-actions{ display:flex; gap:10px; margin-top:12px }
+.book-actions .btn{ padding:10px 12px }
+
+/* Modal */
+.modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(2,6,23,0.9), rgba(2,6,23,0.95)); z-index:120; padding:18px }
+.modal.open{ display:flex }
+.modal-card{ max-width:1000px; width:100%; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:12px; padding:18px; border:1px solid rgba(255,255,255,0.03); display:grid; grid-template-columns:1fr 360px; gap:16px }
+.modal img{ width:100%; height:auto; border-radius:8px }
+.modal .close{ position:absolute; right:18px; top:14px; background:rgba(255,255,255,0.03); border-radius:8px; padding:8px 10px; color:var(--muted); text-decoration:none }
+/* Ensure drawer is hidden by default (desktop) and only shown for small viewports */
+#drawer {
+  display: none;           /* hide on desktop by default */
+  pointer-events: none;
+}
+
+/* panel should be visually hidden on desktop */
+#drawer .panel {
+  display: none;
+}
+
+/* Mobile responsive */
+@media (max-width:880px){
+  .nav-links{ display:none }
+  #hamburger{ display:inline-grid; width:44px; height:44px; border-radius:10px; background:rgba(255, 255, 255, 0.036); color: white; place-items:center; border:0; font-size:18px }
+  #drawer{ display:flex; position:fixed; inset:0; right:0; top:0; z-index:140; pointer-events:none }
+  #drawer .panel{ display: block; margin-left:auto; width:320px; max-width:85vw; background:var(--card); height:100%; padding:20px; box-shadow:-20px 0 40px rgba(2,6,23,0.6); transform:translateX(20px); opacity:0; transition:transform .32s ease, opacity .32s ease; border-left:1px solid rgba(255,255,255,0.03); pointer-events:auto }
+  #drawer.open .panel{ transform:none; opacity:1 }
+}
+
+@media (max-width:720px){
+  .site{ padding:14px }
+  .hero{ grid-template-columns:1fr; gap:12px }
+  .accent-bubble{ height:160px }
+  .hero .intro h1{ font-size:28px }
+  .grid{ column-width: 100%; column-gap:12px } /* fallback for any remaining grids */
+  .project-media{ height:160px }
+  .book-spot{ grid-template-columns:1fr; gap:12px }
+  .book-cover{ width:70%; max-width:360px; margin:0 auto; border-radius:10px }
+  .book-actions{ flex-direction:column; gap:10px }
+  .book-actions .btn{ width:100%; display:block; padding:12px }
+  .modal-card{ width:100%; height:100vh; border-radius:0; grid-template-columns:1fr; align-items:start; padding:14px }
+  .modal .close{ right:12px; top:12px; padding:10px 12px }
+  .pcontent{ padding:10px }
+  .resume-btn{ padding:12px 14px }
+}
+@media (max-width: 980px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* Mobile: 1 column */
+@media (max-width: 720px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-media {
+    height: 180px; /* keeps the card tidy on mobile */
+  }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){ *{ animation:none!important; transition:none!important } }
+
+/* print */
+@media print{ body{ background:white; color:black } header, .cta, .nav-panel, .modal{ display:none } }
