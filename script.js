@@ -9,10 +9,15 @@ const drawer = $('#drawer');
 const closeDrawerBtn = $('#close-drawer');
 
 if (hamburger) {
-  hamburger.addEventListener('click', () => {
+  // Prevent taps/presses from falling through to underlying links
+  hamburger.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); });
+  hamburger.addEventListener('click', (e) => {
+    e.preventDefault(); e.stopPropagation();
     if (!drawer) return;
     const open = drawer.classList.toggle('open');
     drawer.setAttribute('aria-hidden', String(!open));
+    // Reflect expanded state for accessibility
+    hamburger.setAttribute('aria-expanded', String(!!open));
   });
 }
 if (closeDrawerBtn) {
@@ -179,12 +184,30 @@ window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal()
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+// Under-construction notice dismiss
+const dismissNoticeBtn = $('#dismiss-notice');
+const underConstruction = $('#under-construction');
+if (dismissNoticeBtn && underConstruction) {
+  const hideNotice = (e) => {
+    e && e.preventDefault && e.preventDefault();
+    e && e.stopPropagation && e.stopPropagation();
+    underConstruction.style.display = 'none';
+    underConstruction.setAttribute('aria-hidden', 'true');
+    try { localStorage.setItem('noticeDismissed', '1'); } catch (err) {}
+  };
+  // handle pointerdown for faster mobile response and click as a fallback
+  dismissNoticeBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); hideNotice(); });
+  dismissNoticeBtn.addEventListener('click', hideNotice);
+  // if previously dismissed, hide on load
+  try { if (localStorage.getItem('noticeDismissed')) underConstruction.style.display = 'none'; } catch (err) {}
+}
+
 // Close drawer when clicking outside
 document.addEventListener('click', (e) => {
   const dr = $('#drawer');
   if (!dr) return;
   if (!dr.classList.contains('open')) return;
-  if (e.target.closest('.panel')) return;
-  if (e.target === hamburger) return;
+  if (e.target.closest && e.target.closest('.panel')) return;
+  if (e.target.closest && e.target.closest('#hamburger')) return;
   dr.classList.remove('open'); dr.setAttribute('aria-hidden','true');
 });

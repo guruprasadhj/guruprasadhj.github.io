@@ -35,7 +35,7 @@ nav{display:flex; align-items:center; gap:12px}
 .nav-links{display:flex; gap:10px; align-items:center}
 .nav-links a{padding:8px 10px; border-radius:8px; font-size:14px; color:var(--muted); text-decoration:none}
 .resume-btn{padding:8px 10px; border-radius:10px; background:var(--glass); border:1px solid rgba(255,255,255,0.04); font-weight:700}
-#hamburger{display:none}
+#hamburger{display:none; position:relative; z-index:92}
 
 /* Hero */
 .hero{display:grid; grid-template-columns:1fr 420px; gap:calc(var(--gap)); align-items:center; margin-top:18px}
@@ -156,11 +156,25 @@ nav{display:flex; align-items:center; gap:12px}
 /* Mobile responsive */
 @media (max-width:880px){
   .nav-links{ display:none }
-  #hamburger{ display:inline-grid; width:44px; height:44px; border-radius:10px; background:rgba(255, 255, 255, 0.036); color: white; place-items:center; border:0; font-size:18px }
+  /* hide the desktop resume button on small screens (drawer contains Resume) */
+  .resume-btn{ display:none }
+  #hamburger{ display:inline-grid; position:relative; width:44px; height:44px; border-radius:10px; background:rgba(255, 255, 255, 0.036); color: white; place-items:center; border:0; font-size:18px; z-index:160 }
   #drawer{ display:flex; position:fixed; inset:0; right:0; top:0; z-index:140; pointer-events:none }
-  #drawer .panel{ display: block; margin-left:auto; width:320px; max-width:85vw; background:var(--card); height:100%; padding:20px; box-shadow:-20px 0 40px rgba(2,6,23,0.6); transform:translateX(20px); opacity:0; transition:transform .32s ease, opacity .32s ease; border-left:1px solid rgba(255,255,255,0.03); pointer-events:auto }
-  #drawer.open .panel{ transform:none; opacity:1 }
+  /* keep panel visually hidden and non-interactive when closed to avoid capturing taps */
+  #drawer .panel{ display: block; position:relative; margin-left:auto; width:320px; max-width:85vw; background:var(--card); height:100%; padding:20px; box-shadow:-20px 0 40px rgba(2,6,23,0.6); transform:translateX(20px); opacity:0; visibility:hidden; transition:transform .32s ease, opacity .32s ease, visibility 0s linear .32s; border-left:1px solid rgba(255,255,255,0.03); pointer-events:none }
+  #drawer.open .panel{ transform:none; opacity:1; visibility:visible; transition-delay:0s; pointer-events:auto }
 }
+
+/* Mobile drawer nav layout: make links full-width and aligned */
+#drawer .panel nav{ display:flex; flex-direction:column; gap:8px; align-items:stretch }
+#drawer .panel nav a { display:block; width:100%; padding:12px 14px; border-radius:10px; text-decoration:none; color:var(--muted); background:transparent; font-weight:700 }
+#drawer .panel nav a.resume-btn{ margin-top:8px; background:var(--glass); border:1px solid rgba(255,255,255,0.03); color:var(--text); }
+#drawer .panel nav a:hover{ background:rgba(255,255,255,0.02) }
+
+/* drawer close icon button */
+.close-drawer{ position:absolute; right:14px; top:14px; width:40px; height:40px; display:inline-grid; place-items:center; background:rgba(255,255,255,0.02); border-radius:10px; border:0; color:var(--muted); cursor:pointer }
+.close-drawer svg{ display:block }
+.close-drawer:hover{ background:rgba(255,255,255,0.04); color:var(--text) }
 
 @media (max-width:720px){
   .site{ padding:14px }
@@ -233,3 +247,22 @@ nav{display:flex; align-items:center; gap:12px}
   color:#012;
 }
 @media (max-width:720px){ .site-notice{ font-size:14px } }
+
+/* ====== DEBUG HELPERS (temporary) ======
+   Add `debug-hints` to the `<body>` to visualize stacking/hit areas
+   Example (browser console): `document.body.classList.add('debug-hints')`
+*/
+.debug-hints #hamburger {
+  outline: 3px solid rgba(255,0,255,0.95);
+  box-shadow: 0 0 0 6px rgba(255,0,255,0.06);
+  background: rgba(255,0,255,0.04) !important;
+}
+.debug-hints header{ outline: 1px dashed rgba(255,255,255,0.06); }
+.debug-hints .nav-links, .debug-hints .resume-btn, .debug-hints .brand, .debug-hints .logo { outline: 2px dashed rgba(0,255,0,0.18); }
+.debug-hints #drawer .panel{ outline: 2px solid rgba(0,255,0,0.95); }
+.debug-hints a{ background: rgba(255,255,0,0.04); }
+.debug-hints *{ transition: none !important; }
+@media (max-width:880px){
+  .debug-hints #hamburger{ z-index:9999 !important }
+  .debug-hints #drawer{ z-index:9998 !important }
+}
