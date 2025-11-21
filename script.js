@@ -188,3 +188,12 @@ document.addEventListener('click', (e) => {
   if (e.target === hamburger) return;
   dr.classList.remove('open'); dr.setAttribute('aria-hidden','true');
 });
+
+// Dismiss under-construction notice
+const dismissNotice = document.getElementById('dismiss-notice');
+if (dismissNotice) {
+  dismissNotice.addEventListener('click', () => {
+    const n = document.getElementById('under-construction');
+    if (n) n.style.display = 'none';
+  });
+}

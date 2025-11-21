@@ -199,3 +199,28 @@ nav{display:flex; align-items:center; gap:12px}
 
 /* print */
 @media print{ body{ background:white; color:black } header, .cta, .nav-panel, .modal{ display:none } }
+
+/* Under-construction notice */
+.site-notice{
+  margin-top:12px;
+  padding:10px 14px;
+  border-radius:10px;
+  background: linear-gradient(90deg,#fbbf24,#fb923c);
+  color:#012;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:1px solid rgba(0,0,0,0.06);
+}
+.notice-dismiss{
+  background:rgba(1,2,3,0.04);
+  border:0;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:700;
+  color:#012;
+}
+@media (max-width:720px){ .site-notice{ font-size:14px } }
