@@ -3,6 +3,18 @@
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 
+// Splash screen logic
+window.addEventListener('DOMContentLoaded', () => {
+  const splash = $('#splash');
+  if (splash) {
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      splash.classList.add('hidden');
+      document.body.style.overflow = '';
+    }, 2400);
+  }
+});
+
 // Mobile drawer
 const hamburger = $('#hamburger');
 const drawer = $('#drawer');
