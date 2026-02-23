@@ -182,6 +182,19 @@ function renderBook() {
   if (buyBtn && book.buy) buyBtn.href = book.buy;
 }
 
+function renderBlog() {
+  const blog = DATA.BLOG;
+  const cta = document.querySelector('.cta');
+  if (blog && cta) {
+    const btn = document.createElement('a');
+    btn.className = 'btn shiny';
+    btn.href = blog.link;
+    btn.textContent = blog.text || 'Blog';
+    btn.target = '_blank';
+    cta.appendChild(btn);
+  }
+}
+
 function escapeHtml(s){ return String(s||'').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
 
 async function initSite() {
@@ -189,6 +202,7 @@ async function initSite() {
   renderProjects();
   renderArtworks();
   renderBook();
+  renderBlog();
 }
 
 // run init after scripts parsed
